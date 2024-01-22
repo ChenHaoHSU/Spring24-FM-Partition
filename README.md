@@ -90,7 +90,7 @@ Implement one pass of the FM bipartition algorithm for hypergraphs on CPU.
     profiling = (0, 0) # ignore runtime and memory for now
     solver.dump_output_file(*solution, *profiling, output_path)
   ```
-* Use `pdb` or print function to debug your code.
+* Use `pdb` by `import pdb` and `pdb.set_trace()`, or print function to debug your code.
 * Once you successfully dump the solution file `output/YOUR_UT_EID/example_1.txt`, compare it with the ground truth solution `output/reference/example_1.txt`.
 * You can also evaluate your code using the evaluation script.
   ```bash
@@ -136,7 +136,7 @@ TA will do the following steps to generate your score summary.
   ```
 * The generated `score.csv` file under `output/YOUR_UT_EID` will be used in final grading.
 
-# Option to Code in C/C++
+<!-- # Option to Code in C/C++
 You have the option to not use the provided python codebase and implement the FM partition solver in C/C++.
 * You need to set up your LRC account if you do not have one and use the LRC's environment for your programming assignment.
 * You need to implement everything from scratch, e.g., benchmark parser, solver, dump to solution files, etc.
@@ -153,4 +153,4 @@ You have the option to not use the provided python codebase and implement the FM
   ```bash
   FM_Partition> ./student_impl/exe_eid_YOUR_UT_EID ./benchmarks/example_1.txt ./output/YOUR_UT_EID/example_1.txt
   ```
-  * TA will run your solver on all hidden test cases, compare your dumped solution files with the ground truth solutions, and use the generated `score.csv` in your final grading.
+  * TA will run your solver on all hidden test cases, compare your dumped solution files with the ground truth solutions, and use the generated `score.csv` in your final grading. -->
