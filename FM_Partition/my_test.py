@@ -1,7 +1,9 @@
 import os
+import sys
 from student_impl.eid_ch48458 import FM_Partition
 eid = "ch48458"
-benchmark_path = "benchmarks/example_1.txt"
+benchmark_root = "benchmarks"
+benchmark_path = os.path.join(benchmark_root, sys.argv[1])
 output_root = "output"
 output_root = os.path.join(output_root, eid)
 if not os.path.isdir(output_root):
