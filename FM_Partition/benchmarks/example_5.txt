@@ -1,0 +1,9 @@
+8
+6
+n1 a b c
+n2 b d e f
+n3 c f g
+n4 a g
+n5 d e h
+n6 f h
+0.375

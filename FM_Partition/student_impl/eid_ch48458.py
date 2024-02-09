@@ -18,31 +18,6 @@ class FM_Partition(FM_Partition_Base):
     def __init__(self) -> None:
         super().__init__()
 
-    class DoublyLinkedNode():
-        def __init__(self) -> None:
-            self.prev = None
-            self.next = None
-        
-        def __repr__(self):
-            return f'({self.prev}, {self.next})'
-        
-        def __str__(self):
-            return f'({self.prev}, {self.next})'
-
-    class DoublyLinkedList():
-        def __init__(self) -> None:
-            self.first_node = None
-            self.last_node = None
-        
-        def empty(self) -> bool:
-            return self.first_node == None
-        
-        def show(self, ln):
-            node = self.first_node
-            while node != None:
-                print(f' {node}')
-                node = ln[node].next
-
     def get_initial_partition(self) -> List[int]:
         """ Get an initial partition
         """
@@ -76,15 +51,18 @@ class FM_Partition(FM_Partition_Base):
         ]
         self.max_node_degree = max(node_degree_list)
 
-    def compute_net_partition(
+    def compute_net_distribution(
         self, partition: List[int]
     ) -> List[List[int]]:
-        net_partition = [[0, 0] for i in range(self.n_nets)]
+        net_distribution = [[0, 0] for i in range(self.n_nets)]
         for node, nets in enumerate(self.node2net_map):
             part = partition[node]  # which partition, 0 or 1
             for net in nets:
-                net_partition[net][part] += 1
-        return net_partition
+                net_distribution[net][part] += 1
+        return net_distribution
+
+    def gain2index(self, gain: int) -> int:
+        return gain + self.max_node_degree
 
     def build_bucket_lists(self):
         # Compute max node degree
@@ -93,59 +71,44 @@ class FM_Partition(FM_Partition_Base):
         
         # Compute bucket size = 2 * max_node_degree + 1
         self.bucket_size = 2 * self.max_node_degree + 1
-        
-        # List nodes
-        # Nodes: n_0, n_1, ..., n_{n-1}
-        # bucket list[0]: -P_min, 0, -P_max
-        # bucket list[1]: -P_min, 0, -P_max
-        self.ln = [ 
-            self.DoublyLinkedNode() for _ in range(
-                self.n_nodes + (2 * self.bucket_size)
-            )
-        ]
 
         # Build bucket lists
         self.bucket_lists = [
-            [self.DoublyLinkedList() for _ in range(self.bucket_size)], 
-            [self.DoublyLinkedList() for _ in range(self.bucket_size)] 
+            [[] for _ in range(self.bucket_size)], 
+            [[] for _ in range(self.bucket_size)] 
         ]
 
         # Build net partition (num_nodes_on_left, num_nodes_on_right)
-        self.net_partition = self.compute_net_partition(self.initial_partition)
+        self.net_distribution = self.compute_net_distribution(
+            self.initial_partition
+        )
 
+        self.max_gains = [-self.max_node_degree, -self.max_node_degree]
+        self.node_gains = []
         for node, nets in enumerate(self.node2net_map):
             gain = 0
             part = self.initial_partition[node]
             opposite_part = (1 if part == 0 else 0)
             for net in nets:
-                if (self.net_partition[net][part] == 1 and
-                    self.net_partition[net][opposite_part] > 0
-                ):
-                    gain += 1
-                elif (self.net_partition[net][opposite_part] == 0 and
-                     self.net_partition[net][part] > 1
-                ):
-                    gain -= 1
+                if len(self.net2node_map[net]) > 1:
+                    if self.net_distribution[net][part] == 1:
+                        gain += 1
+                    elif self.net_distribution[net][opposite_part] == 0:
+                        gain -= 1
             print(f'Node {node} gain {gain}')
-        
-        print(self.net_partition)
-        print(self.bucket_lists)
-        print(self.ln)
 
-    # def insert_front(
-            # self, node: int, part: int, gain: int
-    # ):
-        # """ Insert a node to the front
-        # """
-        # index = gain + self.max_node_degree  # bucket index
-        # if self.bucket_lists[part][index].last_node == None:
-            
-            
+            # Insert node to the bucket list according to its gain
+            index = self.gain2index(gain)
+            self.bucket_lists[part][index].append(node)
+            self.node_gains.append(gain)
 
+            if self.max_gains[part] < gain:
+                self.max_gains[part] = gain
 
-
-    # def remove_node(self, node):
-
+        print(self.bucket_lists[0])
+        print(self.bucket_lists[1])
+        print(self.max_gains)
+        print(self.node_gains)
 
     def get_best_partition(self) -> List[int]:
         best_partition = self.initial_partition
@@ -166,14 +129,6 @@ class FM_Partition(FM_Partition_Base):
         """
         print(f'[Info] #Nodes: {self.n_nodes}')
         print(f'[Info] #Nets: {self.n_nets}')
-        
-        self.cut_size = 0  # current cutsize of self.sol
-        self.cut_size_list = []
-        self.swap_node_list = []
-        
-        self.best_cut_size = 0  # best custsize of self.best_sol
-        self.best_step = 0  # best step
-        
         # Build node2net_map
         self.node2net_map = [[] for _ in range(self.n_nodes)]
         for net, nodes in enumerate(self.net2node_map):
@@ -197,19 +152,103 @@ class FM_Partition(FM_Partition_Base):
         
         # Initial partition
         self.initial_partition = self.get_initial_partition()
-        initial_cutsize = self.compute_cut_size(
-            self.convert_partition2tuple_node(self.initial_partition)
+        initial_partition_node = self.convert_partition2tuple_node(
+            self.initial_partition
         )
+        initial_cutsize = self.compute_cut_size(initial_partition_node)
         print('Net2node', self.net2node_map)
         print('Node2net', self.node2net_map)
-        print(self.convert_partition2tuple_node(self.initial_partition))
+        print(initial_partition_node)
         self.cut_size = initial_cutsize
+        self.cut_size_list = [initial_cutsize]
         self.best_cut_size = initial_cutsize
-        self.cut_size_list.append(initial_cutsize)
-        print('[Info] Initial cutsize: {initial_cutsize}')
+        self.best_step = 0
+        self.swap_node_list = []
+        self.partition_sizes = [
+            len(initial_partition_node[0]), len(initial_partition_node[1])
+        ]
+        print(f'[Info] Partition sizes: {self.partition_sizes}')
+        print(f'[Info] Initial cutsize: {initial_cutsize}')
 
         # Build bucket lists
         self.build_bucket_lists()
+        self.locked = [False for _ in range(self.n_nodes)]
+
+    def get_valid_moves(self) -> Tuple[bool, bool]:
+        valid_move_0 = (
+            (
+                min(self.partition_sizes[0] - 1, self.partition_sizes[1] + 1)
+                / self.n_nodes
+            )
+            >= (self.min_cut_ratio - self.min_cut_ratio_epsilon)
+        )
+        valid_move_1 = (
+            (
+                min(self.partition_sizes[0] + 1, self.partition_sizes[1] - 1)
+                / self.n_nodes
+            )
+            >= (self.min_cut_ratio - self.min_cut_ratio_epsilon)
+        )
+        return valid_move_0, valid_move_1
+
+    def get_max_gain_and_node(self) -> Tuple[int, int]:
+        """
+            Return:
+                Tuple[int, int]: max_gain, node
+        """
+        max_gain = -self.max_node_degree
+        node = 0
+        
+        valid_moves = self.get_valid_moves()
+        max_gains = self.max_gains[0], self.max_gains[1]
+        indexes = (
+            self.gain2index(self.max_gains[0]),
+            self.gain2index(self.max_gains[1])
+        )
+        if valid_moves[0] == False:
+            max_gain = max_gains[1]
+            assert len(self.bucket_lists[1][indexes[1]]) > 0
+            node = min(self.bucket_lists[1][indexes[1]])
+        elif valid_moves[1] == False:
+            max_gain = max_gains[0]
+            assert len(self.bucket_lists[0][indexes[0]]) > 0
+            node = min(self.bucket_lists[0][indexes[0]])
+        elif max_gains[0] < max_gains[1]:
+            max_gain = max_gains[1]
+            assert len(self.bucket_lists[1][indexes[1]]) > 0
+            node = min(self.bucket_lists[1][indexes[1]])
+        elif max_gains[0] > max_gains[1]:
+            max_gain = max_gains[0]
+            assert len(self.bucket_lists[0][indexes[0]]) > 0
+            node = min(self.bucket_lists[0][indexes[0]])
+        else:
+            assert valid_moves == (True, True)
+            assert max_gains[0] == max_gains[1]
+            assert len(self.bucket_lists[0][indexes[0]]) > 0
+            assert len(self.bucket_lists[1][indexes[1]]) > 0
+            max_gain = max_gains[0]
+            node = min(self.bucket_lists[0][indexes[0]] + 
+                       self.bucket_lists[1][indexes[1]])
+        return max_gain, node
+
+    def remove_node_and_update_max_gain(self, node, part, gain):
+        index = self.gain2index(gain)
+        self.bucket_lists[part][index].remove(node)
+        if (self.max_gains[part] == gain and 
+                len(self.bucket_lists[part][index]) == 0
+            ):
+            index -= 1
+            while index >= -1:
+                if len(self.bucket_lists[part][index]) > 0:
+                    break
+                index -= 1
+            self.max_gains[part] = index - self.max_node_degree
+    
+    def insert_node_and_update_max_gain(self, node, part, gain):
+        index = self.gain2index(gain)
+        self.bucket_lists[part][index].append(node)
+        if gain > self.max_gains[part]:
+            self.max_gains[part] = gain
 
     def partition_one_pass(
         self
@@ -234,6 +273,68 @@ class FM_Partition(FM_Partition_Base):
         # as methods of this class
         # But do not override methods in the parent class
         # Please strictly follow the return type requirement.
+        print()
+        for step in range(1, self.n_nodes + 1):
+            print(self.bucket_lists[0])
+            print(self.bucket_lists[1])
+            max_gain, node = self.get_max_gain_and_node()
+            print(f'Step {step}: Gain {max_gain}, Node {node}')
+            
+            # Add a swap node
+            self.swap_node_list.append(node)
+
+            # Update cutsize
+            self.cut_size -= max_gain
+            self.cut_size_list.append(self.cut_size)
+            if self.cut_size < self.best_cut_size:
+                self.best_cut_size = self.cut_size
+                self.best_step = step
+            
+            # Locked and move
+            assert self.locked[node] == False
+            self.locked[node] = True
+
+            # Move node to the opposite partition
+            part = self.initial_partition[node]
+            opposite_part = (1 if part == 0 else 0)
+            self.partition_sizes[part] -= 1
+            self.partition_sizes[opposite_part] += 1
+            
+            # Update net distribution
+            for net in self.node2net_map[node]:
+                self.net_distribution[net][part] -= 1
+                self.net_distribution[net][opposite_part] += 1
+
+            # Update bucket lists
+            ### Remove current node
+            self.remove_node_and_update_max_gain(node, part, max_gain)
+
+            ### Update unlocked node connected to current node
+            for net in self.node2net_map[node]:
+                for net_node in self.net2node_map[net]:
+                    if self.locked[net_node] == True:
+                        continue
+                    gain = 0
+                    net_node_part = self.initial_partition[net_node]
+                    net_node_oppo_part = (1 if net_node_part == 0 else 0)
+                    for net_node_net in self.node2net_map[net_node]:
+                        if len(self.net2node_map[net_node_net]) > 1:
+                            # print('  ', self.net_distribution[net_node_net])
+                            if self.net_distribution[net_node_net][net_node_part] == 1:
+                                gain += 1
+                            elif self.net_distribution[net_node_net][net_node_oppo_part] == 0:
+                                gain -= 1
+                    # print(f'Node {net_node} gain {gain}')
+                    
+                    # Update
+                    if gain != self.node_gains[net_node]:
+                        self.remove_node_and_update_max_gain(
+                            net_node, net_node_part, self.node_gains[net_node]
+                        )
+                        self.insert_node_and_update_max_gain(
+                            net_node, net_node_part, gain
+                        )
+                        self.node_gains[net_node] = gain
 
         # Get the best
         best_partition = self.get_best_partition()
