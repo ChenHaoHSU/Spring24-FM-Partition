@@ -95,7 +95,6 @@ class FM_Partition(FM_Partition_Base):
                         gain += 1
                     elif self.net_distribution[net][opposite_part] == 0:
                         gain -= 1
-            print(f'Node {node} gain {gain}')
 
             # Insert node to the bucket list according to its gain
             index = self.gain2index(gain)
@@ -105,10 +104,10 @@ class FM_Partition(FM_Partition_Base):
             if self.max_gains[part] < gain:
                 self.max_gains[part] = gain
 
-        print(self.bucket_lists[0])
-        print(self.bucket_lists[1])
-        print(self.max_gains)
-        print(self.node_gains)
+        # print(self.bucket_lists[0])
+        # print(self.bucket_lists[1])
+        # print(self.max_gains)
+        # print(self.node_gains)
 
     def get_best_partition(self) -> List[int]:
         best_partition = self.initial_partition
@@ -156,9 +155,9 @@ class FM_Partition(FM_Partition_Base):
             self.initial_partition
         )
         initial_cutsize = self.compute_cut_size(initial_partition_node)
-        print('Net2node', self.net2node_map)
-        print('Node2net', self.node2net_map)
-        print(initial_partition_node)
+        # print('Net2node', self.net2node_map)
+        # print('Node2net', self.node2net_map)
+        # print('Initial partition', initial_partition_node)
         self.cut_size = initial_cutsize
         self.cut_size_list = [initial_cutsize]
         self.best_cut_size = initial_cutsize
@@ -273,12 +272,8 @@ class FM_Partition(FM_Partition_Base):
         # as methods of this class
         # But do not override methods in the parent class
         # Please strictly follow the return type requirement.
-        print()
         for step in range(1, self.n_nodes + 1):
-            print(self.bucket_lists[0])
-            print(self.bucket_lists[1])
             max_gain, node = self.get_max_gain_and_node()
-            print(f'Step {step}: Gain {max_gain}, Node {node}')
             
             # Add a swap node
             self.swap_node_list.append(node)
@@ -289,6 +284,9 @@ class FM_Partition(FM_Partition_Base):
             if self.cut_size < self.best_cut_size:
                 self.best_cut_size = self.cut_size
                 self.best_step = step
+            
+            print(f'[Info] Step {step}: Gain {max_gain}, Node {node}, '
+                  f'Cutsize {self.cut_size}')
             
             # Locked and move
             assert self.locked[node] == False
