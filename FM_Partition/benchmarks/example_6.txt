@@ -1,0 +1,103 @@
+10
+100
+n0 a6 a1 a0 a7 a5 a2 a8
+n1 a6 a3 a5
+n2 a2 a5 a4 a3 a1 a6 a0 a7
+n3 a8 a1 a3 a4 a9 a7 a0 a5
+n4 a9 a6 a7 a4
+n5 a3 a6
+n6 a3 a1 a6 a9 a2 a4 a5 a7 a0 a8
+n7 a1 a3 a0 a2 a9 a7 a5 a6 a8 a4
+n8 a1 a0
+n9 a4 a9 a1 a8 a2 a6 a0 a7 a3 a5
+n10 a1 a7 a0 a2 a6 a9 a8 a5 a3
+n11 a9 a5 a4 a7 a6 a0
+n12 a8 a9 a7 a0 a1 a3 a4 a2 a5 a6
+n13 a8 a3 a4
+n14 a3 a6 a5 a0
+n15 a7 a1 a2
+n16 a3 a2 a1 a6 a9 a7 a5 a0 a4
+n17 a3 a7 a9 a8 a0
+n18 a8 a4 a0 a1 a6
+n19 a5 a0
+n20 a5 a6 a3 a8 a7 a4 a0 a9 a2 a1
+n21 a1 a2 a6 a0 a9 a4 a8 a5 a3 a7
+n22 a7 a8 a5 a3 a1 a0 a6
+n23 a5 a2 a6 a4
+n24 a9 a8 a3 a4 a7 a5 a2
+n25 a6 a7 a2 a3
+n26 a0 a3
+n27 a2 a4
+n28 a4 a5 a9
+n29 a2 a5 a4 a3 a1
+n30 a4 a7 a5 a9 a6 a3 a2
+n31 a6 a7 a0 a1 a4 a2 a5 a8 a9
+n32 a6 a1 a7
+n33 a8 a5 a1 a0 a4
+n34 a0 a8
+n35 a0 a6 a3 a5 a7 a1 a2
+n36 a2 a3 a7 a5 a4 a0 a1 a6 a8 a9
+n37 a6 a5 a4 a7 a0 a1 a9 a8
+n38 a0 a3
+n39 a2 a5 a6 a0 a1 a8 a9 a4 a7 a3
+n40 a4 a3
+n41 a3 a7 a0 a9 a8
+n42 a3 a5 a2 a8 a6
+n43 a0 a9 a4 a8 a6 a2
+n44 a5 a7 a4 a2 a3 a8 a6 a0
+n45 a8 a6 a1 a0 a7 a3 a2 a9
+n46 a8 a6 a0 a2 a9 a4 a3
+n47 a2 a8 a0 a5 a1
+n48 a2 a7 a6 a3 a4 a5 a8 a9
+n49 a9 a2
+n50 a2 a5 a9 a1 a8 a6 a3 a0
+n51 a9 a7 a8 a0 a5
+n52 a2 a1 a5 a4 a7 a9 a8
+n53 a1 a3
+n54 a6 a8 a4 a7
+n55 a8 a9 a0
+n56 a3 a8
+n57 a0 a4 a5 a1 a6 a9 a3 a7
+n58 a9 a2 a3 a7 a1 a5 a0 a8 a6
+n59 a8 a5
+n60 a0 a9 a6 a8 a3
+n61 a8 a9 a2 a0 a6 a5
+n62 a5 a3 a9 a4
+n63 a9 a5 a1 a7 a6
+n64 a8 a5 a0 a2 a1 a6 a3 a7 a9 a4
+n65 a8 a1 a4 a0 a7 a2 a5
+n66 a9 a1 a0 a6 a2 a3 a5 a7 a4
+n67 a4 a7 a2 a3
+n68 a6 a8
+n69 a1 a6 a8 a9
+n70 a4 a5 a6 a3 a7
+n71 a9 a0
+n72 a7 a2 a0 a9 a5 a4 a1 a6 a3 a8
+n73 a3 a8 a2 a7 a5 a9 a4 a0 a6 a1
+n74 a7 a8 a3 a6 a9 a4 a2 a1
+n75 a1 a5 a9 a4 a3 a7
+n76 a7 a1 a3 a9 a0
+n77 a7 a2 a3 a6 a9 a1
+n78 a9 a0
+n79 a6 a2 a0 a7 a4 a3 a5
+n80 a5 a7 a2 a6 a3 a4 a0 a8 a1 a9
+n81 a4 a3 a5 a9
+n82 a1 a0 a7 a6 a8
+n83 a1 a9 a0 a5 a4 a2
+n84 a1 a2
+n85 a7 a9 a8 a1 a5 a3 a6 a4 a0 a2
+n86 a9 a4 a5 a3
+n87 a0 a7 a6
+n88 a5 a4 a3 a6 a8 a9 a1 a0 a2 a7
+n89 a8 a5 a3 a7 a0
+n90 a3 a0 a1
+n91 a5 a1 a7 a3 a6 a2 a0 a4
+n92 a3 a2 a4 a8 a1 a7 a0 a5
+n93 a2 a5 a6 a4 a0 a3 a8 a7 a1 a9
+n94 a4 a7 a1 a5 a2 a9
+n95 a0 a5 a1 a3 a7 a8 a2 a6 a4
+n96 a7 a2 a6 a5 a4 a0 a9 a1 a8 a3
+n97 a7 a1 a6 a5 a2
+n98 a1 a4
+n99 a0 a6
+0.3
