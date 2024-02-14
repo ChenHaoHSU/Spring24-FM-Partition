@@ -1,0 +1,23 @@
+47
+20
+n0 a3 a24 a0 a6 a25
+n1 a33 a18 a28 a31 a37 a43 a13 a27 a5 a23
+n2 a16 a37 a49 a10 a27
+n3 a22 a7 a4 a44 a1
+n4 a28 a48 a43 a12 a7 a31 a25 a16 a13 a2
+n5 a39 a9 a6 a12 a29
+n6 a23 a34 a9 a6 a38 a31 a47 a36
+n7 a40 a43 a27 a33 a31 a48 a20 a45
+n8 a40 a42 a12 a34 a39 a14 a0 a21 a20
+n9 a2 a33 a9 a16 a38 a47 a24
+n10 a45 a49 a30 a4 a5 a33
+n11 a4 a14
+n12 a2 a19 a0 a48
+n13 a21 a10 a9 a41 a29 a23 a32 a24 a33
+n14 a2 a36 a5 a43 a33 a38 a4 a27 a13 a18
+n15 a38 a26 a30 a24 a49 a37 a14 a1 a0 a11
+n16 a32 a36 a16 a21 a4 a31
+n17 a19 a26 a24 a47 a3 a10
+n18 a15 a18 a46 a21
+n19 a2 a30
+0.32
