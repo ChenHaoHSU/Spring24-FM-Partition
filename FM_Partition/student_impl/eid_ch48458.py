@@ -285,8 +285,8 @@ class FM_Partition(FM_Partition_Base):
                 self.best_cut_size = self.cut_size
                 self.best_step = step
             
-            print(f'[Info] Step {step}: Gain {max_gain}, Node {node}, '
-                  f'Cutsize {self.cut_size}')
+            # print(f'[Info] Step {step}: Gain {max_gain}, Node {node}, '
+                  # f'Cutsize {self.cut_size}')
             
             # Locked and move
             assert self.locked[node] == False
