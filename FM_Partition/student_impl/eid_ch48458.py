@@ -273,6 +273,10 @@ class FM_Partition(FM_Partition_Base):
         # But do not override methods in the parent class
         # Please strictly follow the return type requirement.
         for step in range(1, self.n_nodes + 1):
+
+            if self.get_valid_moves() == (False, False):
+                break
+
             max_gain, node = self.get_max_gain_and_node()
             
             # Add a swap node
